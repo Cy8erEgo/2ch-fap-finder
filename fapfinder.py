@@ -50,7 +50,7 @@ if len(results) > 0:
 
     for result in results:
         
-        url = 'https://2ch.hk/b/%s.html' % result['id']
+        url = 'https://2ch.hk/b/res/%s.html' % result['id']
         print(result['title'] + '\n' + url)
 
     print('-' * 30)
