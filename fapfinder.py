@@ -19,7 +19,10 @@ def parse(html):
 def search():
     print('Поиск...\n')
 
-    for pageNum in range(1, pages):
+    for pageNum in range(1, pages + 1):
+        sys.stdout.flush()
+        sys.stdout.write('\rСтраница %d из %d' % (pageNum, pages))
+        
         pageP = 'https://2ch.hk/b/%s.json' % pageNum
 
         r = requests.get(pageP).json()
@@ -41,6 +44,7 @@ def search():
 
                     results.append(post)
 
+    sys.stdout.write('\n\n')
 
 search()
 
