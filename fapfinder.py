@@ -20,7 +20,6 @@ def search():
     print('Поиск...\n')
 
     for pageNum in range(1, pages):
-
         pageP = 'https://2ch.hk/b/%s.json' % pageNum
 
         r = requests.get(pageP).json()
