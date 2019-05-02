@@ -58,14 +58,11 @@ if __name__ == '__main__':
 
     if len(results) > 0:
         print('Найденные фап-треды:\n')
-        #print('+' * 30)
 
         for index, result in enumerate(results):
             url = 'https://2ch.hk/b/res/%s.html' % result['id']
 
             print('%s. %s\n%s\n' % (index + 1, result['title'], url))
-
-        #print('+' * 30)
     else:
         print('Фап-тред не найден :c')
 
