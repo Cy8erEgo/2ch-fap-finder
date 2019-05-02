@@ -26,7 +26,6 @@ def search():
         sys.stdout.write('\rСтраница %d из %d' % (page_num, PAGES_COUNT))
         
         page_url = 'https://2ch.hk/b/%s.json' % page_num
-
         response = requests.get(page_url).json()
         
         for thread in response['threads']:
