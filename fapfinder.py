@@ -48,7 +48,8 @@ def search():
                         'title': parse(thread_subject)
                     }
 
-                    results.append(post)
+                    if post not in results:
+                        results.append(post)
 
     sys.stdout.write('\n\n')
 
