@@ -11,7 +11,7 @@ results = list()
 pages = int(sys.argv[1])
 
 def parse(html):
-    soup = BeautifulSoup(html, 'html5lib')
+    soup = BeautifulSoup(html, 'html.parser')
     text = soup.get_text()
 
     return text 
