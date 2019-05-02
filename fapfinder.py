@@ -1,65 +1,71 @@
 #!/usr/bin/env python3 
 
-from bs4 import BeautifulSoup
+""" by @cyberego """ 
+
+from bs4 import BeautifulSoup as bs
 import requests
 import json
 import sys
 
-searchKeywords = 'фап fap afg'
-keywordsList = searchKeywords.split()
-results = list()
-pages = int(sys.argv[1])
+search_keywords = 'фап fap afg'
+keywords_list = search_keywords.split()
+pages_count = 9  
 
 def parse(html):
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = bs(html, 'html.parser')
     text = soup.get_text()
 
     return text 
     
 def search():
-    print('Поиск...\n')
+    results = []
 
-    for pageNum in range(1, pages + 1):
+    for page_num in range(1, pages_count + 1):
         sys.stdout.flush()
-        sys.stdout.write('\rСтраница %d из %d' % (pageNum, pages))
+        sys.stdout.write('\rСтраница %d из %d' % (page_num, pages_count))
         
-        pageP = 'https://2ch.hk/b/%s.json' % pageNum
+        page_url = 'https://2ch.hk/b/%s.json' % page_num
 
-        r = requests.get(pageP).json()
+        response = requests.get(page_url).json()
         
-        for thread in r['threads']:
-            threadInfo = thread['posts'][0]
+        for thread in response['threads']:
+            thread_info = thread['posts'][0]
 
-            threadComment= threadInfo['comment'].lower() 
-            threadSubject = threadInfo['subject']
-            threadId = threadInfo['num']
-            threadFilesCount = threadInfo['files_count']
+            thread_comment= thread_info['comment'].lower() 
+            thread_subject = thread_info['subject']
+            thread_id = thread_info['num']
+            thread_files_count = thread_info['files_count']
        
-            for keyword in keywordsList:
-                if keyword in threadComment:
+            for keyword in keywords_list:
+                if keyword in thread_comment:
                     post = {
-                        'id': threadId,
-                        'title': parse(threadSubject)
+                        'id': thread_id,
+                        'title': parse(thread_subject)
                     }
 
                     results.append(post)
 
     sys.stdout.write('\n\n')
 
-search()
-
-if len(results) > 0:
-    print('Фап-тред найден:\n')
-    print('-' * 30)
-
-    for result in results:
-        
-        url = 'https://2ch.hk/b/res/%s.html' % result['id']
-        print(result['title'] + '\n' + url)
-
-    print('-' * 30)
-else:
-    print('Фап-тред не найден :c')
+    return results
 
 
+
+if __name__ == '__main__':
+    print('\nПоиск...\n')
+
+    results = search()
+
+    if len(results) > 0:
+        print('Найденные фап-треды:\n')
+        #print('+' * 30)
+
+        for index, result in enumerate(results):
+            url = 'https://2ch.hk/b/res/%s.html' % result['id']
+
+            print('%s. %s\n%s\n' % (index + 1, result['title'], url))
+
+        #print('+' * 30)
+    else:
+        print('Фап-тред не найден :c')
 
