@@ -17,6 +17,12 @@ def parse(html):
     text = soup.get_text()
 
     return text 
+
+def get_threads_page(page_num):
+    page_url = 'https://2ch.hk/b/%s.json' % page_num
+    response = requests.get(page_url).json()
+
+    return response['threads']
     
 def search():
     results = []
@@ -25,10 +31,9 @@ def search():
         sys.stdout.flush()
         sys.stdout.write('\rСтраница %d из %d' % (page_num, PAGES_COUNT))
         
-        page_url = 'https://2ch.hk/b/%s.json' % page_num
-        response = requests.get(page_url).json()
+        threads_page = get_threads_page(page_num)
         
-        for thread in response['threads']:
+        for thread in threads_page:
             thread_info = thread['posts'][0]
 
             thread_comment= thread_info['comment'].lower() 
