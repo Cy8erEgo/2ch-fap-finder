@@ -7,9 +7,10 @@ import requests
 import json
 import sys
 
-search_keywords = 'фап fap afg'
-keywords_list = search_keywords.split()
-pages_count = 9  
+SEARCH_KEYWORDS = 'фап fap afg'
+PAGES_COUNT = 9  
+
+keywords_list = SEARCH_KEYWORDS.split()
 
 def parse(html):
     soup = bs(html, 'html.parser')
@@ -20,9 +21,9 @@ def parse(html):
 def search():
     results = []
 
-    for page_num in range(1, pages_count + 1):
+    for page_num in range(1, PAGES_COUNT + 1):
         sys.stdout.flush()
-        sys.stdout.write('\rСтраница %d из %d' % (page_num, pages_count))
+        sys.stdout.write('\rСтраница %d из %d' % (page_num, PAGES_COUNT))
         
         page_url = 'https://2ch.hk/b/%s.json' % page_num
 
