@@ -1,7 +1,5 @@
 #!/usr/bin/env python3 
 
-""" by @cyberego """ 
-
 from bs4 import BeautifulSoup as bs
 import requests
 import json
