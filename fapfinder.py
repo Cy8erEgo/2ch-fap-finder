@@ -2,7 +2,6 @@
 
 from bs4 import BeautifulSoup as bs
 import requests
-import json
 import sys
 
 SEARCH_KEYWORDS = "фап fap afg"
