@@ -1,71 +1,30 @@
 #!/usr/bin/env python3
 
-from bs4 import BeautifulSoup as bs
-import requests
-import sys
-
-SEARCH_KEYWORDS = "фап fap afg"
-PAGES_COUNT = 9
-
-keywords_list = SEARCH_KEYWORDS.split()
-
-# TODO: сортировка по кол-ву WEBM в треде
+from models import TwoChannel
+from prettytable import PrettyTable
 
 
-def parse(html):
-    soup = bs(html, "html.parser")
-    text = soup.get_text()
+def main():
+    ch = TwoChannel()
+    fap_threads = ch.get_fap_threads()
 
-    return text
+    tbl = PrettyTable(
+        ["Тема", "Комментарии", "Webm", "Картинки", "Рейтинг", "URL"],
+        border=False
+    )
 
+    for i, t in enumerate(fap_threads, 1):
+        subject = t["subject"] if len(t["subject"]) <= 35 else t["subject"][:32] + "..."
+        score = round(float(t["score"]), 2)
+        webm_count, imgs_count = ch.get_media_count(t["num"])
+        url = "https://2ch.hk/b/res/%s.html" % t["num"]
 
-def get_threads_page(page_num):
-    page_url = "https://2ch.hk/b/%s.json" % page_num
-    response = requests.get(page_url).json()
+        tbl.add_row(
+            [subject, t["posts_count"], webm_count, imgs_count, score, url]
+        )
 
-    return response["threads"]
-
-
-def search():
-    results = []
-
-    for page_num in range(1, PAGES_COUNT + 1):
-        sys.stdout.flush()
-        sys.stdout.write("\rСтраница %d из %d" % (page_num, PAGES_COUNT))
-
-        threads_page = get_threads_page(page_num)
-
-        for thread in threads_page:
-            thread_info = thread["posts"][0]
-
-            thread_comment = thread_info["comment"].lower()
-            thread_subject = thread_info["subject"]
-            thread_id = thread_info["num"]
-            thread_files_count = thread_info["files_count"]
-
-            for keyword in keywords_list:
-                if keyword in thread_comment:
-                    post = {"id": thread_id, "title": parse(thread_subject)}
-
-                    if post not in results:
-                        results.append(post)
-
-    sys.stdout.write("\n\n")
-
-    return results
+    print(tbl)
 
 
 if __name__ == "__main__":
-    print("\nПоиск...\n")
-
-    results = search()
-
-    if len(results) > 0:
-        print("Найденные фап-треды:\n")
-
-        for index, result in enumerate(results):
-            url = "https://2ch.hk/b/res/%s.html" % result["id"]
-
-            print("%s. %s\n%s\n" % (index + 1, result["title"], url))
-    else:
-        print("Фап-тред не найден :c")
+    main()
