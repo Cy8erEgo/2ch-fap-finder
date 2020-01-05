@@ -15,9 +15,9 @@ args = aparser.parse_args()
 ch = TwoChannel()
 posts = ch.get_thread_posts(args.thread_id)
 
+# make a rating
 rating = {}
 
-# make a rating
 for post in posts:
     comment_soup = BS(post["comment"], "html.parser")
     comment_link = comment_soup.find("a")
