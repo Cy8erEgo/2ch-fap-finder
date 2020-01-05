@@ -24,8 +24,10 @@ class TwoChannel:
 
         for thread in all_threads:
             # TODO: поиск регуляркой
+            subject = thread["subject"].lower()
+
             for k in keywords_list:
-                if k in thread["subject"] and thread not in fap_threads:
+                if k in subject and thread not in fap_threads:
                     fap_threads.append(thread)
 
         return sorted(
