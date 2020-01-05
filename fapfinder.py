@@ -14,7 +14,7 @@ def main():
     )
 
     for i, t in enumerate(fap_threads, 1):
-        subject = t["subject"] if len(t["subject"]) <= 35 else t["subject"][:32] + "..."
+        subject = t["subject"] if len(t["subject"]) <= 40 else t["subject"][:37] + "..."
         score = round(float(t["score"]), 2)
         webm_count, imgs_count = ch.get_media_count(t["num"])
         url = "https://2ch.hk/b/res/%s.html" % t["num"]
