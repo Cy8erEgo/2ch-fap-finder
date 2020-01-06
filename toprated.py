@@ -9,6 +9,9 @@ from argparse import ArgumentParser
 # set up argparse
 aparser = ArgumentParser()
 aparser.add_argument("thread_id", help="Thread ID")
+aparser.add_argument(
+    "-n", "--count", type=int, nargs=1, default=0, help="Count of posts"
+)
 args = aparser.parse_args()
 
 # get posts
@@ -35,10 +38,15 @@ for post in posts:
         else:
             rating[parent_url] += 1
 
-# output the rating
-tbl = PrettyTable(["Id", "Ответы"], border=True, sortby="Ответы")
+rating = sorted(rating.items(), key=lambda x: x[1])
+rating = rating[-args.count[0]:]
 
-for r in rating.items():
+# output the rating
+tbl = PrettyTable(
+    ["Id", "Ответы"], border=False, sortby="Ответы", reversesort=True
+)
+
+for r in rating:
     tbl.add_row([r[0], r[1]])
 
 print(tbl)
