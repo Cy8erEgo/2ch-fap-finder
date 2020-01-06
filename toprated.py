@@ -10,7 +10,7 @@ from argparse import ArgumentParser
 aparser = ArgumentParser()
 aparser.add_argument("thread_id", help="Thread ID")
 aparser.add_argument(
-    "-n", "--count", type=int, nargs=1, default=0, help="Count of posts"
+    "-n", "--count", type=int, nargs=1, default=9999, help="Count of posts"
 )
 args = aparser.parse_args()
 
@@ -38,8 +38,9 @@ for post in posts:
         else:
             rating[parent_url] += 1
 
+count = args.count[0] if isinstance(args.count, list) else args.count
 rating = sorted(rating.items(), key=lambda x: x[1])
-rating = rating[-args.count[0]:]
+rating = rating[-count:]
 
 # output the rating
 tbl = PrettyTable(
