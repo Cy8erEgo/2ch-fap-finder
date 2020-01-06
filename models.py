@@ -55,6 +55,9 @@ class TwoChannel:
                         webm_cnt += 1
                     elif f["type"] in (1, 2, 4):
                         imgs_cnt += 1
+                    elif f["type"] == 100:
+                        # sticker
+                        pass
                     else:
                         print(f["type"], f["path"])
 
