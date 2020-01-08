@@ -36,6 +36,7 @@ class TwoChannel:
 
     def get_thread(self, thread_id):
         url = self.base_url + "res/%s.json" % thread_id
+        # TODO: return Thread
         return self._query(url)
 
     def get_thread_posts(self, thread_id):
@@ -62,6 +63,11 @@ class TwoChannel:
                         print(f["type"], f["path"])
 
         return (webm_cnt, imgs_cnt)
+
+
+class Thread:
+    # TODO
+    pass
 
 
 if __name__ == "__main__":
