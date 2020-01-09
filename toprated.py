@@ -51,3 +51,5 @@ for r in rating:
     tbl.add_row([r[0], r[1]])
 
 print(tbl)
+
+# TODO: if the thread doesn't exist

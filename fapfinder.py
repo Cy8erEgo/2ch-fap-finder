@@ -28,6 +28,8 @@ def main():
 
     print(tbl)
 
+# TODO: different ways of sort
+
 
 if __name__ == "__main__":
     main()
